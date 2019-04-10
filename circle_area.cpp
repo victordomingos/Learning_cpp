@@ -3,12 +3,12 @@
 // Victor Domingos
 
 #include <iostream>
+#define PI 3.141592653589793;
 using namespace std;
 
 int main()
 {
 	float radius, area;
-	float pi = 3.141592653589793;
 
 	cout << "Please enter the radius length: ";
 	cin >> radius;
