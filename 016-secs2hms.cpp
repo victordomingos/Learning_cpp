@@ -17,8 +17,8 @@ int main()
 
 	h = s / 3600;	 // integer division
 	s = s % 3600;	 // extract just the remainder (== minutes+seconds)
-	m = s / 60;		 // again, integer division
-	s = s % 60;		 // again, extract just the remaining seconds
+	m = s / 60;	 // again, integer division
+	s = s % 60;	 // again, extract just the remaining seconds
 
 	cout << "Time: ";
 
