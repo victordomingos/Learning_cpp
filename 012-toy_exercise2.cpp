@@ -1,4 +1,4 @@
-﻿// Toy exercise 2 - a little game on multiplication.
+// Toy exercise 2 - a little game on multiplication.
 // 2019-04-17
 // Victor Domingos
 
