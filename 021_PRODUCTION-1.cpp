@@ -1,8 +1,8 @@
-/* Produção 1 (C++) - Nomes, idades e maioridade
+/* Produ√ß√£o 1 (C++) - Nomes, idades e maioridade
 
    Pede ao utilizador que introduza sequencialmente 3 nomes de pessoas e as
-   respetivas idades. De seguida o programa indica quem é o mais velho e
-   quantas dessas pessoas são maiores de idade.
+   respetivas idades. De seguida o programa indica quem √© o mais velho e
+   quantas dessas pessoas s√£o maiores de idade.
    
    Ex. (apenas resultado final):
         Mais velho: Abel
@@ -25,7 +25,7 @@ int main()
     string msg_idade_neg = "\nO valor referente 'a idade nao pode ser inferior a 0.\n";
 
     // Ler nomes e idades de 3 pessoas
-    // Verificar se nenhuma das idades é um valor negativo.
+    // Verificar se nenhuma das idades √© um valor negativo.
 
     cout << "\nNome 1? ";     cin >> nome1;
     
@@ -83,14 +83,14 @@ int main()
     }
 
    
-    // Verificar primeiro se todas as idades são iguais
+    // Verificar primeiro se todas as idades s√£o iguais
     if (idade1 == idade2 && idade2 == idade3)
     {
         mais_velho = "sao todos da mesma idade";
     }
     else 
     {
-        // Comparar idades para determinar qual é o mais velho
+        // Comparar idades para determinar qual √© o mais velho
         if (idade1 >= idade2  &&  idade1 > idade3)
         {
             id_mais_velho = idade1;
@@ -132,15 +132,15 @@ int main()
     }
       
 
-    // Contar quantas pessoas têm idade > 18 anos
+    // Contar quantas pessoas t¬êm idade > 18 anos
     if (idade1 >= 18)  n_maiores++;
     if (idade2 >= 18)  n_maiores++;
     if (idade3 >= 18)  n_maiores++;
 
     // Escrever nome do mais velho.
-    // Escrever nº de pessoas maiores de 18 anos:. Ex.:
+    // Escrever n¬∫ de pessoas maiores de 18 anos:. Ex.:
     //    Mais velho: NOME
-    //    Maioridade: [nº de pessoas maiores de 18 anos]
+    //    Maioridade: [n¬∫ de pessoas maiores de 18 anos]
     cout << "\nMais velho: " << mais_velho;
     cout << "\nMaioridade: " << n_maiores << endl;
 }
