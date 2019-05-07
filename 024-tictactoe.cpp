@@ -49,7 +49,8 @@ int check_win_move(char board[3][3])
 	for (int i = 0; i < 3; i++)
 	{
 		if (board[i][0] == board[i][1] and board[i][0] == board[i][2])
-			return 1; //win!!
+			if ((board[i][0] != ' ')  and  (board[i][1] != 0)  and  (board[i][2] != 0))
+				return 1; //win!!
 		if (board[0][i] == board[1][i] and board[0][i] == board[2][i])
 			return 1; //win!!
 	}
