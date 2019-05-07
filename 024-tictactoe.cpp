@@ -7,80 +7,16 @@
 #include <string>
 #include <time.h>
 
+
 using namespace std;
 
 const string ai_names[9] = { "Elisa", "Sophie", "HAL 2000", "VIKI", "Sonny",
 							 "Tardis", "KITT", "R2D2", "3PO" };
 
-// Game type menu (AI or Human opponent?)
-int choose_opponent(void)
-{
-	char k;
-
-	do
-	{
-		cout << "Please chose the type of your opponent:\n";
-		cout << "  A) A.I. (computer)\n";
-		cout << "  H) Human\n";
-
-		k = _getch();
-		
-		switch (toupper(k))
-		{
-		case 'A':
-			return rand() % 9;
-			break;
-		case 'H':
-			return -2;
-			break;
-		default:
-			if (k == 27)
-				return -1;
-			break;
-		}
-	} while (k != 27);
-
-	return -1;
-}
-
-
-int check_win_move(char board[3][3])
-{
-	for (int i = 0; i < 3; i++)
-	{
-		if (board[i][0] == board[i][1] and board[i][0] == board[i][2])
-			if ((board[i][0] != ' ')  and  (board[i][1] != 0)  and  (board[i][2] != 0))
-				return 1; //win!!
-		if (board[0][i] == board[1][i] and board[0][i] == board[2][i])
-			return 1; //win!!
-	}
-
-	if (board[0][0] == board[1][1] and board[1][1] == board[2][2])
-		return 1; //win!!
-	if (board[2][0] == board[1][1] and board[1][1] == board[0][2])
-		return 1; //win!!
-
-	return 0; // not winning yet...
-}
-
-
-void displayBoard(char board[3][3])
-{
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			cout << board[i][j];
-		}
-		cout << endl;
-	}
-}
-
-
-void displayQuitMessage(void)
-{
-	cout << "\nSee you soon!\n\n";
-}
+void displayQuitMessage(void);
+void displayBoard(char board[3][3]);
+int check_win_move(char board[3][3]);
+int choose_opponent(void);
 
 
 int main()
@@ -90,11 +26,10 @@ int main()
 	int using_AI = 0;
 	string player1, player2;
 
-	char board[3][3] = {
-		{ ' ', ' ', ' '},
-		{ ' ', ' ', ' '},
-		{ ' ', ' ', ' '},
-	};
+	char board[3][3] = {{ ' ', ' ', ' '}, { ' ', ' ', ' '}, { ' ', ' ', ' '},};
+	//char board[3][3] = { { '1', '2', '3'}, 
+	//					 { '4', '5', '6'}, 
+	//					 { '7', '8', '9'}, };
 
 	srand(time(NULL));
 
@@ -132,6 +67,9 @@ int main()
 	else
 		cout << player2 << " plays first.\n";
 
+	int status = check_win_move(board);
+	cout << "Status: " << status;
+
 
 	// Start game loop
 	do
@@ -151,7 +89,82 @@ int main()
 		// Change turns, now the other player must make a move.
 
 	} while (key != 27);
-	
+
 	displayQuitMessage();
 	return 0;
+}
+
+
+
+// Game type menu (AI or Human opponent?)
+int choose_opponent(void)
+{
+	char k;
+
+	do
+	{
+		cout << "Please chose the type of your opponent:\n";
+		cout << "  A) A.I. (computer)\n";
+		cout << "  H) Human\n";
+
+		k = _getch();
+
+		switch (toupper(k))
+		{
+		case 'A':
+			return rand() % 9;
+			break;
+		case 'H':
+			return -2;
+			break;
+		default:
+			if (k == 27)
+				return -1;
+			break;
+		}
+	} while (k != 27);
+
+	return -1;
+}
+
+
+int check_win_move(char board[3][3])
+{
+	for (int i = 0; i < 3; i++)
+	{
+		if (board[i][0] != ' ' and board[i][0] == board[i][1] and board[i][0] == board[i][2])
+			return 1; //win!!
+		
+		if (board[i][0] != ' ' and board[0][i] == board[1][i] and board[0][i] == board[2][i])
+			return 1; //win!!
+	}
+
+	// Check both diagonal lines
+	if (board[0][0] != ' ' and board[0][0] == board[1][1] and board[1][1] == board[2][2])
+		return 1; //win!!
+	if (board[2][0] != ' ' and board[2][0] == board[1][1] and board[1][1] == board[0][2])
+		return 1; //win!!
+
+	return 0; // not winning yet...
+}
+
+
+void displayBoard(char board[3][3])
+{
+	for (size_t i = 0; i < 5; i++)
+		cout << "\n\n";
+	
+	for (size_t i = 0; i < 3; i++)
+	{
+		cout << "   " << board[i][0] << " | " << board[i][1] << " | " << board[i][2] << endl;
+		if (i <2)
+			cout << "  -----------\n";
+	}
+	cout << endl;
+}
+
+
+void displayQuitMessage(void)
+{
+	cout << "\nSee you soon!\n\n";
 }
