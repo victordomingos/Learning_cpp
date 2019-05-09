@@ -1,8 +1,8 @@
-/* Produção 2 - parte III
+/* ProduÃ§Ã£o 2 - parte III
    2019-05-02 Victor Domingos
 
-   Ler 5 números para um array. 
-   Calcular a média dos números positivos. 
+   Ler 5 nÃºmeros para um array. 
+   Calcular a mÃ©dia dos nÃºmeros positivos. 
 */
 
 #include <iostream>
@@ -17,7 +17,7 @@ int main()
     float positives_mean = 0;
 
  
-    // Ler 5 números para um array.
+    // Ler 5 nÃºmeros para um array.
     cout << "\nPor favor, introduza 5 numeros (pressione ENTER depois de escrever cada um deles):";
     cout << "\n? ";     cin >> nums[0];
     cout << "? ";     cin >> nums[1];
@@ -25,7 +25,7 @@ int main()
     cout << "? ";     cin >> nums[3];
     cout << "? ";     cin >> nums[4];
 
-    // Calcular a média dos números positivos.
+    // Calcular a mÃ©dia dos nÃºmeros positivos.
     for (int i = 0; i < 5; i++)
     {
         if (nums[i] >= 0)
