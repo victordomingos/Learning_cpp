@@ -121,14 +121,16 @@ int main()
 					if (current_player == 1)
 					{
 						player1score++;
-						clearScreen(); displayHeader();
+						clearScreen();
+						displayHeader();
 						displayBoard(player1, player2, player1score, player2score);
 						displayWinMessage(player1);
 					}
 					else
 					{
 						player2score++;
-						clearScreen(); displayHeader();
+						clearScreen();
+						displayHeader();
 						displayBoard(player1, player2, player1score, player2score);
 						displayWinMessage(player2);
 					}
@@ -141,7 +143,8 @@ int main()
 				}
 				else if (win_status == -1) //draw
 				{
-					clearScreen(); displayHeader();
+					clearScreen();
+					displayHeader();
 					displayBoard(player1, player2, player1score, player2score);
 					displayDrawMessage();
 					waitForAnyKey();
