@@ -7,7 +7,7 @@
 #include <string>
 #include <conio.h>
 #include <time.h>
-#include <Windows.h>
+#include <windows.h>
 
 using namespace std;
 
@@ -15,7 +15,9 @@ void clearScreen(void);
 void displayWelcome(void);
 void displayHeader(void);
 void displayWinMessage(string player_name);
+void displayDrawMessage();
 void displayQuitMessage(void);
+void waitForAnyKey();
 
 int choose_opponent(void);
 void newGame(void);
@@ -43,13 +45,13 @@ int main()
 	string player1, player2;
 	int player1score = 0;
 	int player2score = 0;
+	int win_status;
 	bool change_turn = false;
 
 	srand(time(NULL));
 
 	displayWelcome();
 
-	clearScreen();
 	cout << "\nPlease enter first player's name:\n -> ";
 	getline(cin, player1);
 	cout << "\nHi, " << player1 << "!\n\n";
@@ -70,7 +72,8 @@ int main()
 	else
 	{
 		player2 = ai_names[using_AI];
-		cout << "\nPlaying against " << player2 << ", one of most famous TicTactToe players in the world...\n\n" << endl;
+		clearScreen();
+		cout << "\n\nPlaying against " << player2 << ", one of most famous TicTactToe players in the world...\n\n" << endl;
 	}
 
 
@@ -83,60 +86,70 @@ int main()
 	// Determine who plays first
 	current_player = rand() % 2 + 1;
 	if (current_player == 1)
-		cout << player1 << " plays first (" << current_player_symbol << ").\n";
+		cout << endl << player1 << " plays first (" << current_player_symbol << ").\n";
 	else
-		cout << player2 << " plays first (" << current_player_symbol << ").\n";
+		cout << endl << player2 << " plays first (" << current_player_symbol << ").\n";
 
-
-	cout << "\nPress any key to continue...";
-
-	fflush(stdin);
-	_getch();
+	waitForAnyKey();
 
 
 	// Start game loop
 	do
 	{
-		displayHeader();
+		clearScreen(); displayHeader();
 		displayBoard(player1, player2, player1score, player2score);
 
 		// if current player is human, ask for position
 		// if not, generate an inteligent move.
 		if (current_player == 1)
 			cout << "\n " << player1 << " (1-9)? ";
-		else
+		else if (current_player == 2 and using_AI == -2)
 			cout << "\n " << player2 << " (1-9)? ";
 
 
-		if ((using_AI == 1) and (current_player == 2))
+
+		// AI player is always number 2. Is it the current player?
+		if ((using_AI >= 1) and (current_player == 2))
 		{
-			//sleep here
+			Sleep(rand() % 3000 + 500);
 			if (makeAImove(current_player_symbol))
 			{
 				change_turn = true;
-				if (check_win_move())
+				win_status = check_win_move();
+				if (win_status == 1)
 				{
 					if (current_player == 1)
 					{
 						player1score++;
+						clearScreen(); displayHeader();
+						displayBoard(player1, player2, player1score, player2score);
 						displayWinMessage(player1);
 					}
 					else
 					{
 						player2score++;
+						clearScreen(); displayHeader();
+						displayBoard(player1, player2, player1score, player2score);
 						displayWinMessage(player2);
 					}
 
-					cout << "\nPress any key to continue...";
-
-					fflush(stdin);
-					_getch();
+					waitForAnyKey();
 
 					cout << "\nNot changing turns...\n"; // DEBUG
 					change_turn = false;
 					newGame();
 				}
-				change_turn = true;
+				else if (win_status == -1) //draw
+				{
+					clearScreen(); displayHeader();
+					displayBoard(player1, player2, player1score, player2score);
+					displayDrawMessage();
+					waitForAnyKey();
+					change_turn = false;
+					newGame();
+				}
+				else { change_turn = true; }
+
 			}
 			// if board is full we should not be here in the first place:
 			else
@@ -154,24 +167,40 @@ int main()
 				position = key - '0';  // convert a numeric character to int using its 'face value'
 				if (makeMove(position, current_player_symbol))
 				{
-					if (check_win_move())
+					win_status = check_win_move();
+					if (win_status == 1)
 					{
 						if (current_player == 1)
+						{
 							player1score++;
+							clearScreen(); displayHeader();
+							displayBoard(player1, player2, player1score, player2score);
+							displayWinMessage(player1);
+						}
 						else
+						{
 							player2score++;
+							clearScreen(); displayHeader();
+							displayBoard(player1, player2, player1score, player2score);
+							displayWinMessage(player2);
+						}
 
-						// TODO pause here
-						Sleep(500);
-
-
+						waitForAnyKey();
+						newGame();
+					}
+					else if (win_status == -1) //draw
+					{
+						clearScreen(); displayHeader();
+						displayBoard(player1, player2, player1score, player2score);
+						displayDrawMessage();
+						waitForAnyKey();
 						change_turn = false;
 						newGame();
 					}
-					change_turn = true;
+					else { change_turn = true; }
 				}
-				else
-					change_turn = false;
+				else { change_turn = false; }
+
 
 				break;
 
@@ -219,36 +248,40 @@ void displayWelcome(void)
 	char example_board[3][3] = { { '1', '2', '3'},
 								 { '4', '5', '6'},
 								 { '7', '8', '9'}, };
-	// Welcome text
-	cout << "\n\nWelcome to yet another incredible TicTacToe game!\n\n\n\n";
-
-	cout << "Here's how it works:\n\n\n";
-	cout << "  - Each player either gets a bag full of O's, or a bag full of X's.\n\n";
-	cout << "  - At each turn, the player chooses an empty board position for the\n    next move.\n\n";
-	cout << "  - The first player who manages to get 3 aligned positions wins.\n\n";
-	cout << "  - Those 3 positions can be aligned in vertical, horizontal or diagonal\n    directions.\n\n";
-	cout << "\nPress any key to continue...";
-
-	fflush(stdin);
-	_getch();
 
 	clearScreen();
+	cout << "\n\nWelcome to yet another incredible TicTacToe game!\n\n\n\n";
+
+	Sleep(1000);
+	cout << "Here's how it works:\n\n\n";
+	Sleep(500);		cout << "  - Each player either gets a bag full of O's, or a bag full of X's.\n\n";
+	Sleep(200);		cout << "  - At each turn, the player chooses an empty board position for the\n    next move.\n\n";
+	Sleep(200);		cout << "  - The first player who manages to get 3 aligned positions wins.\n\n";
+	Sleep(200);		cout << "  - Those 3 positions can be aligned in vertical, horizontal or diagonal\n    directions.\n\n";
+
+	Sleep(800);
+	waitForAnyKey();
+
 	cout << "\n\nJust one more thing:\n\n";
+	Sleep(500);
 	cout << " - Each board postion has its own number. So, in order to make a move,\n   you just need to press the corresponding key.\n\n";
+	Sleep(800);
 	cout << "Now, let's see which number corresponds to each position in the board:\n\n";
 	cout << "   1 | 2 | 3\n";
 	cout << "  -----------\n";
 	cout << "   4 | 5 | 6\n";
 	cout << "  -----------\n";
 	cout << "   7 | 8 | 9\n\n\n";
-	cout << "\nPress any key to continue...";
 
-	fflush(stdin);
-	_getch();
+	Sleep(800);
+	waitForAnyKey();
 }
 
 
 // Game type menu (AI or Human opponent?)
+// Returns a random number (to select the AI character name)
+// or -2 to proceeed with another human player
+// or -1 to quit the game.
 int choose_opponent(void)
 {
 	char k;
@@ -257,7 +290,7 @@ int choose_opponent(void)
 	{
 		cout << "Please chose the type of your opponent:\n";
 		cout << "  A) A.I. (computer)\n";
-		cout << "  H) Human\n";
+		cout << "  H) Human\n\n? ";
 
 		fflush(stdin);
 		k = _getche();
@@ -287,6 +320,8 @@ void displayHeader()
 	cout << "\n_ _ _ The amazing NPK TicTacToe game! _ _ _\n\n\n\n";
 }
 
+
+// Initializes an empty board
 void newGame()
 {
 	for (size_t i = 0; i < 3; i++)
@@ -367,7 +402,6 @@ bool makeAImove(char symbol)
 {
 	int position;
 
-
 	if (isBoardFull())
 	{
 		cout << "The board is full, no more moves available.";
@@ -404,6 +438,8 @@ bool makeMove(int position, char symbol)
 }
 
 
+// Check if the board contains a winning trio of X's or O's (1 for true, 0 for false)
+// If not winning but board is full, then we have a draw (-1).
 int check_win_move()
 {
 	for (int i = 0; i < 3; i++)
@@ -423,23 +459,37 @@ int check_win_move()
 	if (board[2][0] != ' ' and board[2][0] == board[1][1] and board[1][1] == board[0][2])
 		return 1; //win!!
 
-	// TODO - if not winning but board is full, we have a draw (-1).
+	if (isBoardFull())
+		return -1; // Draw...
 
 	return 0; // not winning yet...
 }
 
 void displayWinMessage(string player_name)
 {
-	cout << "\n\n" << player_name << "has won this round!\n";
-	cout << "\n\n\nPress any key to continue...";
+	cout << "\n\n" << player_name << " has won this round!\n";
+	Sleep(1000);
+}
 
-	fflush(stdin);
-	_getch();
+
+void displayDrawMessage()
+{
+	cout << "\n\nNobody has won this round... We have a draw.\n";
+	Sleep(1000);
+}
+
+// Waits for any key press, then clears the screen
+void waitForAnyKey()
+{
+	cout << "\nPress any key to continue...";
+	fflush(stdin); _getch();
+	clearScreen();
 }
 
 
 void displayQuitMessage(void)
 {
 	cout << "\n\nSee you soon!\n\n\n";
+	Sleep(1000);
 }
 
