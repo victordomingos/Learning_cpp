@@ -55,7 +55,7 @@ int main()
     if(newTail != NULL)
     {
         tail->next = newTail;
-        tail = N
+        tail = newTail;
     }
 
 
