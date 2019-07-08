@@ -41,6 +41,8 @@ int main()
     node tail = head;
 
     displayLinkedList(head);
+
+
     //Insert at head
     node newHead = createNode(8);
     if(newHead != NULL)
@@ -50,6 +52,7 @@ int main()
     }
     displayLinkedList(head);
 
+
     //Insert at tail
     node newTail = createNode(15);
     if(newTail != NULL)
@@ -57,17 +60,20 @@ int main()
         tail->next = newTail;
         tail = newTail;
     }
-
-
-
     displayLinkedList(head);
+    
+    
     //Insert inside  body
     
 
 
     //Remove from head
 
+
+
     //Remove from tail
+
+
 
     //Remove from body
 
