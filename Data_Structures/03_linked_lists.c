@@ -31,11 +31,11 @@ void displayLinkedList(node linked_list)
     node cursor = linked_list;
     while (cursor != NULL)
     {
-        printf("%d\n", cursor->data);
+        printf("%d  ", cursor->data);
         cursor=cursor->next;
         usedMemory += unitSize;
     }
-    printf("-------- Used %d bytes --------\n", usedMemory);
+    printf("\n- Used %d bytes -\n", usedMemory);
     
 }
 
@@ -57,22 +57,26 @@ node insertAtHead(node head, int value)
 
 int main()
 {
+    printf("\n\nCreating a single element linked list.\n");
     node head = createNode(10);
     node tail = head;
     node cursor;
 
+    
+    displayLinkedList(head);
+
+    printf("\n\nInsert 10 elements at head\n");
+    for(int i = 0; i < 10; i++)
+    {
+        node p = insertAtHead(head, 8);
+        if (p != NULL)
+            head = p;
+    }
+
     displayLinkedList(head);
 
 
-    //Insert at head
-    node p = insertAtHead(head, 8);
-    if (p != NULL)
-        head = p;
-
-    displayLinkedList(head);
-
-
-    //Insert at tail
+    printf("\n\nInsert one at tail\n");
     node newTail = createNode(15);
     if(newTail != NULL)
     {
@@ -82,7 +86,7 @@ int main()
     displayLinkedList(head);
     
     
-    //Insert inside  body
+    printf("\n\nInserting one inside body, in crescent order.\n");
     node newBodyNode = createNode(12);
     for(cursor = head; cursor->next->data < newBodyNode->data; cursor=cursor->next)
     {
@@ -94,7 +98,7 @@ int main()
     displayLinkedList(head);
 
 
-    //Remove from head
+    printf("\n\nRemoving one from head.\n");
     if (head==tail) // Clean a single element list
     {
         free(head);
@@ -111,7 +115,7 @@ int main()
 
 
 
-    //Remove from tail
+    printf("\n\nRemoving one from tail.\n");
     if (head==tail) // Clean a single element list
     {
         free(head);
@@ -120,14 +124,11 @@ int main()
     }
     else
     {
-        node p;
         cursor = head;
 
-        while (cursor != NULL)
-        {
+        while (cursor->next->next != NULL)
             cursor = cursor->next;
-        }
-        p = cursor;
+        
         free(tail);
         cursor->next = NULL;
         tail = cursor;
@@ -136,8 +137,23 @@ int main()
 
 
 
-
     //Remove from body
+    printf("\n\nRemoving one from body where value == 10.\n");
+    
+    cursor = head;
+    printf("cursor: %d", cursor->data);  
+
+
+    while (cursor->next->data != 10 && cursor->next->next != NULL)
+        cursor = cursor->next;
+    
+    if (cursor->next->data == 10)
+    {
+        node p = cursor->next;
+        cursor->next = cursor->next->next;
+        free(p);
+    }
+    displayLinkedList(head);
 
     return 0;
 }
