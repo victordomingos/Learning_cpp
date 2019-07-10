@@ -1,5 +1,5 @@
 // Exercise on linked lists
-
+// 2019 Victor Domingos
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +35,7 @@ void displayLinkedList(node linked_list)
         cursor=cursor->next;
         usedMemory += unitSize;
     }
-    printf("\n- Used %d bytes -\n", usedMemory);
+    printf("\n==== Using %d bytes ====\n\n", usedMemory);
     
 }
 
@@ -47,17 +47,47 @@ node insertAtHead(node head, int value)
     {
         newHead->next = head;
         head = newHead;
+        return head;    
     }
-    return head;    
+    else return NULL;
 }
 
 
+node insertAtTail(node head, node tail, int value)
+{
+    node newTail = createNode(value);
+    if(newTail != NULL)
+    {
+        tail->next = newTail;
+        tail = newTail;
+        return tail;
+    }
+    else return NULL;
+}
+
+
+
+node removeFirstOccurrence(node head, int value )
+{
+    node cursor = head;
+
+    while (cursor->next->data != value && cursor->next->next != NULL)
+        cursor = cursor->next;
+    
+    if (cursor->next->data == value)
+    {
+        node p = cursor->next;
+        cursor->next = cursor->next->next;
+        free(p);
+    }
+    return head;
+}
 
 
 
 int main()
 {
-    printf("\n\nCreating a single element linked list.\n");
+    printf("\nCreating a single element linked list.\n");
     node head = createNode(10);
     node tail = head;
     node cursor;
@@ -65,41 +95,36 @@ int main()
     
     displayLinkedList(head);
 
-    printf("\n\nInsert 10 elements at head\n");
+    printf("\nInserting 10 elements at head.\n");
     for(int i = 0; i < 10; i++)
     {
         node p = insertAtHead(head, 8);
         if (p != NULL)
             head = p;
     }
-
     displayLinkedList(head);
 
 
-    printf("\n\nInsert one at tail\n");
-    node newTail = createNode(15);
-    if(newTail != NULL)
-    {
-        tail->next = newTail;
-        tail = newTail;
-    }
+    printf("\nInserting one at tail.\n");
+    node p = insertAtTail(head, tail, 15);
+    if (p != NULL)
+        tail = p;
+   
     displayLinkedList(head);
     
     
-    printf("\n\nInserting one inside body, in crescent order.\n");
+    printf("\nInserting one inside body, in ascending order.\n");
     node newBodyNode = createNode(12);
     for(cursor = head; cursor->next->data < newBodyNode->data; cursor=cursor->next)
-    {
-        // Empty loop, just to set the cursor pointer to the intended position.
-    }
+        { } // Empty loop, just to set the cursor pointer to the intended position. 
 
     newBodyNode->next = cursor->next;
     cursor->next = newBodyNode;
     displayLinkedList(head);
 
 
-    printf("\n\nRemoving one from head.\n");
-    if (head==tail) // Clean a single element list
+    printf("\nRemoving one from head.\n");
+    if (head==tail) // Is it a single element list?
     {
         free(head);
         head=NULL;
@@ -115,8 +140,8 @@ int main()
 
 
 
-    printf("\n\nRemoving one from tail.\n");
-    if (head==tail) // Clean a single element list
+    printf("\nRemoving one from tail.\n");
+    if (head==tail) // Is it a single element list?
     {
         free(head);
         head=NULL;
@@ -138,21 +163,8 @@ int main()
 
 
     //Remove from body
-    printf("\n\nRemoving one from body where value == 10.\n");
-    
-    cursor = head;
-    printf("cursor: %d", cursor->data);  
-
-
-    while (cursor->next->data != 10 && cursor->next->next != NULL)
-        cursor = cursor->next;
-    
-    if (cursor->next->data == 10)
-    {
-        node p = cursor->next;
-        cursor->next = cursor->next->next;
-        free(p);
-    }
+    printf("\nRemoving one from body where value == 10.\n");
+    head = removeFirstOccurrence(head, 10);
     displayLinkedList(head);
 
     return 0;
