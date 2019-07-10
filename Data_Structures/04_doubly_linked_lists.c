@@ -30,13 +30,14 @@ void displayLinkedList(node *linked_list)
 {    
     int usedMemory = 0;
     int unitSize = sizeof(**linked_list);
-
+	int n = 0;
     node cursor = *linked_list;
     while (cursor != NULL)
     {
-        printf("%d  ", cursor->data);
+        printf("%d\t DATA: %d \tTHIS:%p \tPREV:%p \tNEXT:%p\n", n, cursor->data, (void*)cursor, (void *)cursor->prev, (void *)cursor->next);
         cursor=cursor->next;
         usedMemory += unitSize;
+		n++;
     }
     printf("\n==== Using %d bytes ====\n\n", usedMemory);
 }
@@ -44,17 +45,12 @@ void displayLinkedList(node *linked_list)
 
 int insertAtHead(node *head, int value)
 {
-    printf("A");
     node newHead = createNode(value);
     if(newHead != NULL)
     {
-        printf("B");
         (*head)->prev = newHead;
-        printf("C");
         newHead->next = *head; 
-        printf("D");
         *head = newHead;
-        printf("E ");
         return 0;    
     }
     else return 1;
@@ -161,8 +157,8 @@ int main()
 
     printf("\nInserting 10 elements at head.\n");
     for(int i = 0; i < 10; i++)  { insertAtHead(&head, 8); }
-    //displayLinkedList(&head);
-    //return 0;
+    displayLinkedList(&head);
+    return 0;
 
     printf("\nInserting one at tail.\n");
     insertAtTail(&head, &tail, 15);
