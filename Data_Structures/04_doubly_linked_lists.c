@@ -34,7 +34,7 @@ void displayLinkedList(node *linked_list)
     node cursor = *linked_list;
     while (cursor != NULL)
     {
-        printf("%d\t DATA: %d \tTHIS:%p \tPREV:%p \tNEXT:%p\n", n, cursor->data, (void*)cursor, (void *)cursor->prev, (void *)cursor->next);
+        printf("%d\t DATA: %d \tTHIS: %p \tPREV: %p \tNEXT: %p\n", n, cursor->data, (void*)cursor, (void *)cursor->prev, (void *)cursor->next);
         cursor=cursor->next;
         usedMemory += unitSize;
 		n++;
@@ -99,6 +99,7 @@ int insertInAscendingOrder(node *head, node *tail, int value)
     //TODO: Fix this
     newBodyNode->next = cursor->next;
     cursor->next->prev = newBodyNode; 
+    newBodyNode->prev = cursor;
     cursor->next = newBodyNode;
     return 0;
 }
