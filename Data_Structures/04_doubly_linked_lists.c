@@ -5,17 +5,17 @@
 #include <stdlib.h>
 
 
-typedef struct node_structure
+typedef struct node
 {
     int data;
-    struct node_structure *prev;
-    struct node_structure *next;
+    struct node *prev;
+    struct node *next;
 } *node;
 
 
 node createNode(int value)
 {
-    node newNode = (node) malloc(sizeof(node));
+    node newNode = malloc(sizeof(struct node));
     if (newNode != NULL)
     {
         newNode->data = value;
