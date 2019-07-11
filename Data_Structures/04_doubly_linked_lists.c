@@ -60,10 +60,12 @@ int insertAtHead(node *head, int value)
 int insertAtTail(node *head, node *tail, int value)
 {
     node newTail = createNode(value);
+    node p = *tail;
     if(newTail != NULL)
     {
         (*tail)->next = newTail;
         (*tail) = newTail;
+        (*tail)->prev = p;
         return 0;
     }
     else return 1;
@@ -158,11 +160,11 @@ int main()
     printf("\nInserting 10 elements at head.\n");
     for(int i = 0; i < 10; i++)  { insertAtHead(&head, 8); }
     displayLinkedList(&head);
-    return 0;
 
     printf("\nInserting one at tail.\n");
     insertAtTail(&head, &tail, 15);
     displayLinkedList(&head);
+    return 0;
     
     
     printf("\nInserting one inside body, in ascending order.\n");
