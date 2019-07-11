@@ -60,12 +60,11 @@ int insertAtHead(node *head, int value)
 int insertAtTail(node *head, node *tail, int value)
 {
     node newTail = createNode(value);
-    node p = *tail;
     if(newTail != NULL)
     {
+        newTail->prev = *tail;
         (*tail)->next = newTail;
         (*tail) = newTail;
-        (*tail)->prev = p;
         return 0;
     }
     else return 1;
@@ -97,7 +96,9 @@ int insertInAscendingOrder(node *head, node *tail, int value)
     for(cursor = *head; cursor->next->data < newBodyNode->data; cursor=cursor->next)
         { } // Empty loop, just to set the cursor pointer to the intended position. 
 
+    //TODO: Fix this
     newBodyNode->next = cursor->next;
+    cursor->next->prev = newBodyNode; 
     cursor->next = newBodyNode;
     return 0;
 }
@@ -164,23 +165,19 @@ int main()
     printf("\nInserting one at tail.\n");
     insertAtTail(&head, &tail, 15);
     displayLinkedList(&head);
-    return 0;
-    
     
     printf("\nInserting one inside body, in ascending order.\n");
     insertInAscendingOrder(&head, &tail, 12);
     displayLinkedList(&head);
-
+    return 0;
 
     printf("\nRemoving one from head.\n");
     removeFirstElement(&head, &tail);
     displayLinkedList(&head);
 
-
     printf("\nRemoving one from tail.\n");
     removeLastElement(&head, &tail);
     displayLinkedList(&head);
-
 
     printf("\nRemoving one from body where value == 10.\n");
     removeFirstOccurrence(&head, 10);
