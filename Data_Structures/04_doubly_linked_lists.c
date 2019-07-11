@@ -96,7 +96,6 @@ int insertInAscendingOrder(node *head, node *tail, int value)
     for(cursor = *head; cursor->next->data < newBodyNode->data; cursor=cursor->next)
         { } // Empty loop, just to set the cursor pointer to the intended position. 
 
-    //TODO: Fix this
     newBodyNode->next = cursor->next;
     cursor->next->prev = newBodyNode; 
     newBodyNode->prev = cursor;
