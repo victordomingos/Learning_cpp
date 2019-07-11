@@ -82,6 +82,7 @@ int removeFirstOccurrence(node *head, int value )
     if (cursor->next->data == value)
     {
         node p = cursor->next;
+        cursor->next->next->prev = cursor->next->prev;
         cursor->next = cursor->next->next;
         free(p);
     }
@@ -117,6 +118,7 @@ int removeFirstElement(node *head, node *tail)
     else
     {
         node p = (*head)->next;
+        p->prev = (*head)->prev;
         free(*head);
         *head = p;
         return 0;
@@ -169,7 +171,6 @@ int main()
     printf("\nInserting one inside body, in ascending order.\n");
     insertInAscendingOrder(&head, &tail, 12);
     displayLinkedList(&head);
-    return 0;
 
     printf("\nRemoving one from head.\n");
     removeFirstElement(&head, &tail);
