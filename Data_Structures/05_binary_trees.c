@@ -43,49 +43,33 @@ void displayTree(node *tree)
 }
 */
 
+void showPreOrder(node root)
+{
+    if (root!=NULL)
+    {
+        printf("    %p DATA: %d \tLEFT: %p \tRIGHT: %p\n", (void *)root, root->data, (void *) root->left, (void *)root->right);
+        showPreOrder(root->left);
+        showPreOrder(root->right);
+    }
+}
+
 
 node addNode(node root, int value)
 {
     node newNode = createNode(value);
-
+    
     if(root == NULL)
-        root = newNode; // Creating 1st element, so newNode must become the root.
+        return newNode; // Creating 1st element, so newNode must become the root.
     else
     {
         if (value < root->data)
-            addNode(root->left, value);
+            root->left = addNode(root->left, value);
         else
-            addNode(root->right, value);
-    }
+            root->right = addNode(root->right, value);
     return root;
+    }
 }
 
-
-void showTree(node root)
-{
-
-    if(root == NULL)
-        {
-            printf("== No mode elements ==\n");
-        }
-    else
-        if(root->left != NULL)
-            showTree(root->left);
-        if(root->right != NULL)
-            showTree(root->right);
-            //TODO
-
-
-
-
-    {
-        if (value < root->data)
-            addNode(root->left, value);
-        else
-            addNode(root->right, value);
-    }
-    return root;
-}
 
 
 int main()
@@ -93,11 +77,28 @@ int main()
     printf("\nCreating a single element linked list.\n");
     node root = NULL;
     root = addNode(root, 10);
-    printf("ROOT - D: %d \tL: %p \tR: %p\n", root->data, (void *)root->left, (void *)root->right);
+    showPreOrder(root);
+
+    printf("\nInserting a new node (8)\n");
     root = addNode(root, 8);
-    printf("ROOT - D: %d \tL: %p \tR: %p\n", root->data, (void *)root->left, (void *)root->right);
-    
+    showPreOrder(root);
+
+    printf("\nInserting a new node (15)\n");
     root = addNode(root, 15);
-    printf("ROOT - D: %d \tL: %p \tR: %p\n", root->data, (void *)root->left, (void *)root->right);
+    showPreOrder(root);
+
+    printf("\nInserting a new node (9)\n");
+    root = addNode(root, 9);
+    showPreOrder(root);
+    
+
+    printf("\nInserting a new node (11)\n");
+    root = addNode(root, 11);
+    showPreOrder(root);
+
+    printf("\nInserting a new node (12)\n");
+    root = addNode(root, 12);
+    showPreOrder(root);
+
     return 0;
 }
